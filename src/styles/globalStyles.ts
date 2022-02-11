@@ -4,36 +4,40 @@ import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
 
-/**
- * 1. Correct the line height in all browsers.
- * 2. Prevent adjustments of font size after orientation changes in iOS.
- */
+
 
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
 
-/* Sections
-   ========================================================================== */
 
-/**
- * Remove the margin in all browsers.
- */
-
-body {
+* {
+  padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
+
 
 :root {
   --gray-100: #EFEFEF;
   --gray-400: #969696;
   --gray-700: #4E4E4E;
   --black: #141414;
-  --orange-300: #ED8E53;
+  --orange: #ED8E53;
   --red: #EF5353;
   --green: #4EA438;
 }
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-sarif;
+  width: 100%;
+  height: 100vh;
+  color: var(--black);
+}
+
+
 
 /**
  * Render the 'main' element consistently in IE.
