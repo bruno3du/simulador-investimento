@@ -6,6 +6,8 @@ import { Input, FormLabel, Button, ButtonGroup } from '@mui/material';
 import { useState } from 'react';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { BsCheck } from 'react-icons/bs';
+import { useFormik } from 'formik';
+import InputsComponents from './components/Inputs';
 
 const ButtonCSS = {
 	border: '1px solid var(--black)',
@@ -23,11 +25,27 @@ function App() {
 		bruto: true,
 		liquido: false,
 	});
+
 	const [formPrePosFix, setFormPrePosFix] = useState({
 		pre: true,
 		pos: false,
 		fixed: false,
 	});
+
+	const formik = useFormik({
+		initialValues: {
+			aporteInitial: '',
+			prazo: '',
+			ipca: '',
+			aporteMensal: '',
+			rentabilidade: '',
+			cdi: '',
+		},
+		onSubmit: (values) => {
+			alert(JSON.stringify(values, null, 2));
+		},
+	});
+
 	return (
 		<>
 			<GlobalStyles />
@@ -38,7 +56,7 @@ function App() {
 				<main>
 					<section>
 						<h2>Simulador</h2>
-						<form>
+						<form onSubmit={formik.handleSubmit}>
 							<div>
 								<div className='form-01'>
 									<div className='rendimento--tipo'>
@@ -58,8 +76,6 @@ function App() {
 												onClick={() =>
 													setFormLiqBr({ bruto: true, liquido: false })
 												}
-												defaultChecked
-												aria-checked
 												sx={ButtonCSS}>
 												Bruto
 											</Button>
@@ -74,25 +90,42 @@ function App() {
 											</Button>
 										</ButtonGroup>
 										<div className='input-justify'>
-											<FormLabel htmlFor='rendimento-aporte-inicial'>
+											<FormLabel htmlFor='aporteInitial'>
 												Aporte Inicial
 											</FormLabel>
-											<Input id='rendimento-aporte-inicial' type='text' />
+											<InputsComponents
+												id='aporteInitial'
+												name='aporteInitial'
+												type='text'
+												onChange={formik.handleChange}
+												value={formik.values.aporteInitial}
+											/>
 										</div>
 										<div className='input-justify'>
 											<FormLabel htmlFor='prazo'>Prazo (em meses)</FormLabel>
-											<Input id='prazo' type='text' />
+											<Input
+												id='prazo'
+												name='prazo'
+												type='text'
+												onChange={formik.handleChange}
+												value={formik.values.prazo}
+											/>
 										</div>
 										<div className='input-justify'>
 											<FormLabel htmlFor='ipca'>IPCA (ao ano)</FormLabel>
-											<Input id='ipca' type='text' />
+											<Input
+												id='ipca'
+												type='text'
+												onChange={formik.handleChange}
+												value={formik.values.ipca}
+											/>
 										</div>
 									</div>
 								</div>
 								<div className='form-02'>
 									<div className='rendimento--tipo'>
 										<div className='rendimento--tipo__title'>
-											<span>Rendimento</span>
+											<span>Tipo de Indexação</span>
 											<div>
 												<AiOutlineExclamationCircle />
 											</div>
@@ -144,31 +177,51 @@ function App() {
 										</ButtonGroup>
 
 										<div className='input-justify'>
-											<FormLabel htmlFor='rendimento-aporte-inicial'>
+											<FormLabel htmlFor='aporteMensal'>
 												Aporte Mensal
 											</FormLabel>
-											<Input id='rendimento-aporte-inicial' type='text' />
+											<Input
+												id='aporteMensal'
+												name='aporteMensal'
+												type='text'
+												onChange={formik.handleChange}
+												value={formik.values.aporteMensal}
+											/>
 										</div>
 										<div className='input-justify'>
-											<FormLabel htmlFor='prazo'>Rentabilidade</FormLabel>
-											<Input id='prazo' type='text' />
+											<FormLabel htmlFor='rentabilidade'>
+												Rentabilidade
+											</FormLabel>
+											<Input
+												id='rentabilidade'
+												name='rentabilidade'
+												type='text'
+												onChange={formik.handleChange}
+												value={formik.values.rentabilidade}
+											/>
 										</div>
 										<div className='input-justify'>
-											<FormLabel htmlFor='ipca'>CDI (ao ano)</FormLabel>
-											<Input id='ipca' type='text' />
+											<FormLabel htmlFor='cdi'>CDI (ao ano)</FormLabel>
+											<Input
+												id='cdi'
+												name='cdi'
+												type='text'
+												onChange={formik.handleChange}
+												value={formik.values.cdi}
+											/>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div>
-								<button id='btn-clean' className='btn-form' type='reset'>
+								<button
+									onChange={formik.handleChange}
+									id='btn-clean'
+									className='btn-form'
+									type='reset'>
 									Limpar Campos
 								</button>
-								<button
-									disabled
-									id='btn-submit'
-									className='btn-form'
-									type='submit'>
+								<button id='btn-submit' className='btn-form' type='submit'>
 									Simular
 								</button>
 							</div>
