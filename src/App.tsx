@@ -1,13 +1,16 @@
 /** @format */
 
+import { useState } from 'react';
 import { Container } from './style';
 import { GlobalStyles } from './styles/globalStyles';
-import { Input, FormLabel, Button, ButtonGroup } from '@mui/material';
-import { useState } from 'react';
+import { Button, ButtonGroup } from '@mui/material';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { BsCheck } from 'react-icons/bs';
 import { useFormik } from 'formik';
-import InputsComponents from './components/Inputs';
+import InputCurrency from './components/Input/InputsCurrency';
+import InputPorcent from './components/Input/InputPorcent';
+import Input from './components/Input';
+import { schema } from './utils/yup';
 
 const ButtonCSS = {
 	border: '1px solid var(--black)',
@@ -25,7 +28,6 @@ function App() {
 		bruto: true,
 		liquido: false,
 	});
-
 	const [formPrePosFix, setFormPrePosFix] = useState({
 		pre: true,
 		pos: false,
@@ -41,11 +43,12 @@ function App() {
 			rentabilidade: '',
 			cdi: '',
 		},
+		validationSchema: schema,
 		onSubmit: (values) => {
 			alert(JSON.stringify(values, null, 2));
 		},
 	});
-
+	console.log(formik.errors.aporteInitial)
 	return (
 		<>
 			<GlobalStyles />
@@ -90,10 +93,8 @@ function App() {
 											</Button>
 										</ButtonGroup>
 										<div className='input-justify'>
-											<FormLabel htmlFor='aporteInitial'>
-												Aporte Inicial
-											</FormLabel>
-											<InputsComponents
+											<InputCurrency
+												labelContent='Aporte Inicial'
 												id='aporteInitial'
 												name='aporteInitial'
 												type='text'
@@ -102,8 +103,8 @@ function App() {
 											/>
 										</div>
 										<div className='input-justify'>
-											<FormLabel htmlFor='prazo'>Prazo (em meses)</FormLabel>
 											<Input
+												labelContent='Prazo (em meses)'
 												id='prazo'
 												name='prazo'
 												type='text'
@@ -112,9 +113,10 @@ function App() {
 											/>
 										</div>
 										<div className='input-justify'>
-											<FormLabel htmlFor='ipca'>IPCA (ao ano)</FormLabel>
-											<Input
+											<InputPorcent
+												labelContent='IPCA (ao ano)'
 												id='ipca'
+												name='ipca'
 												type='text'
 												onChange={formik.handleChange}
 												value={formik.values.ipca}
@@ -177,10 +179,8 @@ function App() {
 										</ButtonGroup>
 
 										<div className='input-justify'>
-											<FormLabel htmlFor='aporteMensal'>
-												Aporte Mensal
-											</FormLabel>
-											<Input
+											<InputCurrency
+												labelContent='Aporte Mensal'
 												id='aporteMensal'
 												name='aporteMensal'
 												type='text'
@@ -189,10 +189,8 @@ function App() {
 											/>
 										</div>
 										<div className='input-justify'>
-											<FormLabel htmlFor='rentabilidade'>
-												Rentabilidade
-											</FormLabel>
-											<Input
+											<InputPorcent
+												labelContent='Rentabilidade'
 												id='rentabilidade'
 												name='rentabilidade'
 												type='text'
@@ -201,8 +199,8 @@ function App() {
 											/>
 										</div>
 										<div className='input-justify'>
-											<FormLabel htmlFor='cdi'>CDI (ao ano)</FormLabel>
-											<Input
+											<InputPorcent
+												labelContent='CDI (ao ano)'
 												id='cdi'
 												name='cdi'
 												type='text'
