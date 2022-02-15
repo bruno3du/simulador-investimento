@@ -6,12 +6,14 @@ import NumberFormat from 'react-number-format';
 import { InputStyled } from '../style';
 
 interface InputCurrencyProps {
-	error?: boolean;
+	error?: boolean | '' | undefined;
 	labelContent?: string;
 	value: string;
 	onChange: (e: React.ChangeEvent<any>) => void;
 	id: string | undefined;
 	name: string | undefined;
+	onBlur?: React.FocusEventHandler<HTMLInputElement> | undefined;
+
 	type?: (('text' | 'tel' | 'password') & HTMLInputTypeAttribute) | undefined;
 }
 
@@ -22,6 +24,8 @@ export default function InputCurrency({
 	id,
 	name,
 	type,
+	onBlur,
+
 	error = false,
 }: InputCurrencyProps) {
 	return (
@@ -46,8 +50,9 @@ export default function InputCurrency({
 				isNumericString={false}
 				onChange={onChange}
 				fixedDecimalScale={true}
+				onBlur={onBlur}
 			/>
-			{error && <div>error</div>}
+			{error && <div>{error}</div>}
 		</InputStyled>
 	);
 }

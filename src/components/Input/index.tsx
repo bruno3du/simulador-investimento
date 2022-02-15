@@ -6,12 +6,13 @@ import NumberFormat from 'react-number-format';
 import { InputStyled } from './style';
 
 interface InputsComponentsProps {
-	error?: boolean;
+	error?: boolean | '' | undefined;
 	labelContent?: string;
 	value: string;
 	onChange: (e: React.ChangeEvent<any>) => void;
 	id: string | undefined;
 	name: string | undefined;
+	onBlur?: React.FocusEventHandler<HTMLInputElement> | undefined;
 	type?: (('text' | 'tel' | 'password') & HTMLInputTypeAttribute) | undefined;
 }
 
@@ -21,6 +22,7 @@ export default function InputPorcent({
 	onChange,
 	id,
 	name,
+	onBlur,
 	type,
 	error = false,
 }: InputsComponentsProps) {
@@ -41,8 +43,9 @@ export default function InputPorcent({
 				displayType='input'
 				allowNegative={false}
 				onChange={onChange}
+				onBlur={onBlur}
 			/>
-			{error && <div>error</div>}
+			{error && <div>{error}</div>}
 		</InputStyled>
 	);
 }

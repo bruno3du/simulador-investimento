@@ -6,7 +6,7 @@ import { GlobalStyles } from './styles/globalStyles';
 import { Button, ButtonGroup } from '@mui/material';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { BsCheck } from 'react-icons/bs';
-import { useFormik } from 'formik';
+import { isEmptyArray, useFormik } from 'formik';
 import InputCurrency from './components/Input/InputsCurrency';
 import InputPorcent from './components/Input/InputPorcent';
 import Input from './components/Input';
@@ -44,11 +44,16 @@ function App() {
 			cdi: '',
 		},
 		validationSchema: schema,
+
 		onSubmit: (values) => {
 			alert(JSON.stringify(values, null, 2));
 		},
 	});
-	console.log(formik.errors.aporteInitial)
+
+	
+
+	
+
 	return (
 		<>
 			<GlobalStyles />
@@ -100,6 +105,11 @@ function App() {
 												type='text'
 												onChange={formik.handleChange}
 												value={formik.values.aporteInitial}
+												onBlur={formik.handleBlur}
+												error={
+													formik.errors.aporteInitial &&
+													formik.touched.aporteInitial
+												}
 											/>
 										</div>
 										<div className='input-justify'>
@@ -109,7 +119,9 @@ function App() {
 												name='prazo'
 												type='text'
 												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
 												value={formik.values.prazo}
+												error={formik.errors.prazo && formik.touched.prazo}
 											/>
 										</div>
 										<div className='input-justify'>
@@ -119,7 +131,9 @@ function App() {
 												name='ipca'
 												type='text'
 												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
 												value={formik.values.ipca}
+												error={formik.errors.ipca! && formik.touched.ipca}
 											/>
 										</div>
 									</div>
@@ -132,7 +146,6 @@ function App() {
 												<AiOutlineExclamationCircle />
 											</div>
 										</div>
-
 										<ButtonGroup
 											sx={{ mt: '10px' }}
 											fullWidth
@@ -186,6 +199,11 @@ function App() {
 												type='text'
 												onChange={formik.handleChange}
 												value={formik.values.aporteMensal}
+												onBlur={formik.handleBlur}
+												error={
+													formik.errors.aporteMensal &&
+													formik.touched.aporteMensal
+												}
 											/>
 										</div>
 										<div className='input-justify'>
@@ -196,6 +214,11 @@ function App() {
 												type='text'
 												onChange={formik.handleChange}
 												value={formik.values.rentabilidade}
+												onBlur={formik.handleBlur}
+												error={
+													formik.errors.rentabilidade &&
+													formik.touched.rentabilidade
+												}
 											/>
 										</div>
 										<div className='input-justify'>
@@ -205,7 +228,9 @@ function App() {
 												name='cdi'
 												type='text'
 												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
 												value={formik.values.cdi}
+												error={formik.errors.cdi && formik.touched.cdi}
 											/>
 										</div>
 									</div>
@@ -213,13 +238,13 @@ function App() {
 							</div>
 							<div>
 								<button
-									onChange={formik.handleChange}
+									onClick={formik.handleReset}
 									id='btn-clean'
 									className='btn-form'
 									type='reset'>
 									Limpar Campos
 								</button>
-								<button id='btn-submit' className='btn-form' type='submit'>
+								<button disabled={!formik.dirty || !formik.isValid} id='btn-submit' className='btn-form' type='submit'>
 									Simular
 								</button>
 							</div>
